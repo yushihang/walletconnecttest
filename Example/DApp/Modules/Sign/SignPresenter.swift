@@ -251,7 +251,7 @@ extension AuthRequestParams {
         statement: String? = "I accept the ServiceOrg Terms of Service: https://app.web3inbox.com/tos",
         requestId: String? = nil,
         resources: [String]? = nil,
-        methods: [String]? = ["personal_sign", "eth_sendTransaction", "eth_signTypedData"]
+        methods: [String]? = ["personal_sign", "eth_sendTransaction", "eth_signTypedData", "eth_signTransaction"]
     ) -> AuthRequestParams {
         return try! AuthRequestParams(
             domain: domain,

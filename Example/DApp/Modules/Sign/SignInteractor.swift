@@ -11,7 +11,9 @@ enum Proposal {
             methods: [
                 "eth_sendTransaction",
                 "personal_sign",
-                "eth_signTypedData"
+                "eth_signTypedData",
+                "eth_signTransaction",
+                "eth_sendRawTransaction"
             ], events: []
         )
     ]
@@ -33,7 +35,9 @@ enum Proposal {
             methods: [
                 "eth_sendTransaction",
                 "personal_sign",
-                "eth_signTypedData"
+                "eth_signTypedData",
+                "eth_signTransaction",
+                "eth_sendRawTransaction"
             ], events: []
         )
     ]

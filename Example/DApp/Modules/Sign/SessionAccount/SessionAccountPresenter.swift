@@ -95,13 +95,18 @@ extension SessionAccountPresenter {
             return AnyCodable(["0x4d7920656d61696c206973206a6f686e40646f652e636f6d202d2031363533333933373535313531", account])
         } else if method == "eth_signTypedData" {
             return AnyCodable([account, Stub.eth_signTypedData])
+        } else if method == "eth_signTransaction" {
+            return AnyCodable(Stub.signTransaction)
         }
         throw Errors.notImplemented
     }
     
     private func presentResponse(response: Response) {
         self.response = response
-        showResponse.toggle()
+        DispatchQueue.main.async {
+            self.showResponse.toggle()
+        }
+        
     }
     
     private func openWallet() {
@@ -129,16 +134,29 @@ extension SessionAccountPresenter.Errors: LocalizedError {
 private enum Stub {
     struct Transaction: Codable {
         let from, to, data, gas: String
-        let gasPrice, value, nonce: String
+        let gasPrice, value: String
     }
     
-    static let tx = [Transaction(from: "0x9b2055d370f73ec7d8a03e965129118dc8f5bf83",
-                                to: "0x9b2055d370f73ec7d8a03e965129118dc8f5bf83",
-                                data: "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
-                                gas: "0x76c0",
-                                gasPrice: "0x9184e72a000",
-                                value: "0x9184e72a",
-                                nonce: "0x117")]
+    struct SignTransactionS: Codable {
+        let from, to, data, gas: String
+        let gasPrice, value, nonce: String
+    }
+    static let tx = [Transaction(from: "0x52f203bc8bc838e666548b7e0c8ffd54ce3da615",
+                                to: "0x21669cd5cd7874af2a8e569da3d7a0f6f85e6b4b",
+                                data: "",//"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
+                                gas: "", //"0x10000",
+                                gasPrice: "", //"0x2710",//"0x9184e72a000",
+                                value: "0x9184e72a" //,
+                                 /*nonce: "0x117"*/)]
+    
+    static let signTransaction = [SignTransactionS(from: "0x52f203bc8bc838e666548b7e0c8ffd54ce3da615",
+                                 to: "0x21669cd5cd7874af2a8e569da3d7a0f6f85e6b4b",
+                                 data: "",//"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
+                                 gas: "", //"0x10000",
+                                 gasPrice: "", //"0x2710",//"0x9184e72a000",
+                                 value: "0x9184e72a",
+                                 nonce: "0x117")]
+    
     static let eth_signTypedData = """
 {
 "types": {
