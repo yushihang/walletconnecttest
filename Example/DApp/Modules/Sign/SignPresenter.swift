@@ -220,6 +220,7 @@ extension SignPresenter {
         if let session = Sign.instance.getSessions().first {
             self.session = session
             session.namespaces.values.forEach { namespace in
+                accountsDetails.removeAll()
                 namespace.accounts.forEach { account in
                     accountsDetails.append(
                         AccountDetails(
@@ -242,7 +243,7 @@ extension SignPresenter: SceneViewModel {}
 extension AuthRequestParams {
     static func stub(
         domain: String = "lab.web3modal.com",
-        chains: [String] = ["eip155:1", "eip155:137"],
+        chains: [String] = ["eip155:80002"],//["eip155:1", "eip155:137"],
         nonce: String = "32891756",
         uri: String = "https://lab.web3modal.com",
         nbf: String? = nil,
@@ -250,7 +251,7 @@ extension AuthRequestParams {
         statement: String? = "I accept the ServiceOrg Terms of Service: https://app.web3inbox.com/tos",
         requestId: String? = nil,
         resources: [String]? = nil,
-        methods: [String]? = ["personal_sign", "eth_sendTransaction"]
+        methods: [String]? = ["personal_sign", "eth_sendTransaction", "eth_signTypedData"]
     ) -> AuthRequestParams {
         return try! AuthRequestParams(
             domain: domain,

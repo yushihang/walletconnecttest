@@ -2787,7 +2787,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 18;
-				DEVELOPMENT_TEAM = W5R8AG9K22;
+				DEVELOPMENT_TEAM = RPH9JS3TFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = dApp;
@@ -2804,7 +2804,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.dapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.web3modal.sample11223;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2823,7 +2823,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 18;
-				DEVELOPMENT_TEAM = W5R8AG9K22;
+				DEVELOPMENT_TEAM = RPH9JS3TFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = dApp;
@@ -2840,7 +2840,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.dapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.web3modal.sample11223;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2857,7 +2857,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = W5R8AG9K22;
+				DEVELOPMENT_TEAM = RPH9JS3TFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PNDecryptionService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PNDecryptionService;
@@ -2869,7 +2869,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp.PNDecryptionService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp123123.PNDecryptionService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -2887,7 +2887,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = W5R8AG9K22;
+				DEVELOPMENT_TEAM = RPH9JS3TFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PNDecryptionService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PNDecryptionService;
@@ -2899,7 +2899,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp.PNDecryptionService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp123123.PNDecryptionService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -3067,7 +3067,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 164;
-				DEVELOPMENT_TEAM = W5R8AG9K22;
+				DEVELOPMENT_TEAM = RPH9JS3TFD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalletApp/Other/Info.plist;
@@ -3083,7 +3083,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp123123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -3103,7 +3103,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 164;
-				DEVELOPMENT_TEAM = W5R8AG9K22;
+				DEVELOPMENT_TEAM = RPH9JS3TFD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WalletApp/Other/Info.plist;
@@ -3119,7 +3119,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walletconnect.walletapp123123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

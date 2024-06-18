@@ -189,7 +189,7 @@ private enum Stub {
 "domain": {
     "name": "Ether Mail",
     "version": "1",
-    "chainId": 1,
+    "chainId": 80002,
     "verifyingContract": "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"
 },
 "message": {
