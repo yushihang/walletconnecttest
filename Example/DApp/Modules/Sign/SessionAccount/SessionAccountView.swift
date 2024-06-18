@@ -163,28 +163,31 @@ struct SessionAccountView: View {
                     .padding(12)
                 
                 ForEach(Array(methods.enumerated()), id: \.offset) { index, method in
-                    Button {
-                        presenter.onMethod(method: method)
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(.white.opacity(0.02))
-                            
-                            HStack(spacing: 10) {
-                                Text(method)
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(.white)
-                                    .padding(.vertical, 12)
+                    if method != "eth_sendRawTransaction" {
+                        Button {
+                            presenter.onMethod(method: method)
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(.white.opacity(0.02))
                                 
-                                Spacer()
+                                HStack(spacing: 10) {
+                                    Text(method)
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.white)
+                                        .padding(.vertical, 12)
+                                    
+                                    Spacer()
+                                }
+                                .padding(.vertical, 12)
+                                .padding(.horizontal, 8)
                             }
-                            .padding(.vertical, 12)
+                            .padding(.bottom, 12)
                             .padding(.horizontal, 8)
                         }
-                        .padding(.bottom, 12)
-                        .padding(.horizontal, 8)
+                        .accessibilityIdentifier("method-\(index)")
                     }
-                    .accessibilityIdentifier("method-\(index)")
+           
                 }
             }
         }
@@ -238,6 +241,7 @@ struct SessionAccountView: View {
                             .foregroundColor(Color(red: 0.58, green: 0.62, blue: 0.62))
                             .padding(12)
                     }
+                    
                 }
                 
                 ZStack {
@@ -259,9 +263,23 @@ struct SessionAccountView: View {
                             .padding(.vertical, 12)
                             .padding(.horizontal, 8)
                     }
+                    
+          
+                    
                 }
                 .padding(.bottom, 12)
                 .padding(.horizontal, 8)
+                
+                Spacer()
+                if let lastRequest = presenter.lastRequest,
+                   lastRequest.method == "eth_signTransaction" {
+                    Button(action: {
+                        presenter.onMethod(method: "eth_sendRawTransaction")
+                    }, label: {
+                        Text("eth_sendRawTransaction")
+                    })
+                    
+                }
             }
         }
     }

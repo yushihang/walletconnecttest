@@ -22,6 +22,7 @@ final class SessionAccountPresenter: ObservableObject {
     
     var sessionAccount: AccountDetails
     var response: Response?
+    var signedTransactionHex: String = ""
     
     private var subscriptions = Set<AnyCancellable>()
 
@@ -74,6 +75,20 @@ final class SessionAccountPresenter: ObservableObject {
     }
 }
 
+extension String {
+    func removingQuotes() -> String {
+        var result = self
+        if result.hasPrefix("\"") {
+            result.removeFirst()
+        }
+        if result.hasSuffix("\"") {
+            result.removeLast()
+        }
+        return result
+    }
+}
+
+
 // MARK: - Private functions
 extension SessionAccountPresenter {
     private func setupInitialState() {
@@ -82,6 +97,16 @@ extension SessionAccountPresenter {
             .sink { [unowned self] response in
                 requesting = false
                 presentResponse(response: response)
+                if let lastRequest, lastRequest.method == "eth_signTransaction" {
+                    do {
+                        signedTransactionHex = try response.result.asJSONEncodedString()
+                        signedTransactionHex = signedTransactionHex.removingQuotes()
+                    }
+                    catch {
+                        signedTransactionHex = ""
+                    }
+                    print(response)
+                }
             }
             .store(in: &subscriptions)
     }
@@ -97,6 +122,8 @@ extension SessionAccountPresenter {
             return AnyCodable([account, Stub.eth_signTypedData])
         } else if method == "eth_signTransaction" {
             return AnyCodable(Stub.signTransaction)
+        } else if method == "eth_sendRawTransaction" {
+            return AnyCodable([signedTransactionHex])
         }
         throw Errors.notImplemented
     }
