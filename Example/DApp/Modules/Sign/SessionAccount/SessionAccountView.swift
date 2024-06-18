@@ -274,6 +274,7 @@ struct SessionAccountView: View {
                 if let lastRequest = presenter.lastRequest,
                    lastRequest.method == "eth_signTransaction" {
                     Button(action: {
+                        presenter.showResponse = false
                         presenter.onMethod(method: "eth_sendRawTransaction")
                     }, label: {
                         Text("eth_sendRawTransaction")

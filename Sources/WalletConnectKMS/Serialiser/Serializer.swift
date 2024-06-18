@@ -148,7 +148,7 @@ public class Serializer: Serializing {
             let str = String(decoding: decryptedData, as: UTF8.self)
             
             let decodedType = try JSONDecoder().decode(T.self, from: decryptedData)
-            logger.debug(str + "\nOK")
+            logger.debug(str + "\nOK\n")
             return (decodedType, decryptedData)
         } catch {
             let str = String(decoding: decryptedData, as: UTF8.self)

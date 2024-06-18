@@ -131,7 +131,7 @@ extension SessionAccountPresenter {
     private func presentResponse(response: Response) {
         self.response = response
         DispatchQueue.main.async {
-            self.showResponse.toggle()
+            self.showResponse = true
         }
         
     }
@@ -176,13 +176,23 @@ private enum Stub {
                                 value: "0x9184e72a" //,
                                  /*nonce: "0x117"*/)]
     
-    static let signTransaction = [SignTransactionS(from: "0x52f203bc8bc838e666548b7e0c8ffd54ce3da615",
+    private static let signTransaction_ = [SignTransactionS(from: "0x52f203bc8bc838e666548b7e0c8ffd54ce3da615",
                                  to: "0x21669cd5cd7874af2a8e569da3d7a0f6f85e6b4b",
                                  data: "",//"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
                                  gas: "", //"0x10000",
                                  gasPrice: "", //"0x2710",//"0x9184e72a000",
                                  value: "0x9184e72a",
                                  nonce: "0x117")]
+    
+    static var signTransaction: [SignTransactionS] {
+        [SignTransactionS(from: "0x52f203bc8bc838e666548b7e0c8ffd54ce3da615",
+                          to: "0x21669cd5cd7874af2a8e569da3d7a0f6f85e6b4b",
+                          data: "",//"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
+                          gas: "", //"0x10000",
+                          gasPrice: "", //"0x2710",//"0x9184e72a000",
+                          value: "0x9184e72a",
+                          nonce: "0x118")]
+    }
     
     static let eth_signTypedData = """
 {
