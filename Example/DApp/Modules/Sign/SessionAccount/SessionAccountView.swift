@@ -231,7 +231,16 @@ struct SessionAccountView: View {
                     )
                     .foregroundColor(Color(red: 0.58, green: 0.62, blue: 0.62))
                     .padding(12)
-                    
+                    Spacer()
+
+                    Button {
+                        presenter.copyResponse()
+                    } label: {
+                        Image("copy")
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                            .padding(.trailing, 18)
+                    }
                     Spacer()
                     if let lastRequest = presenter.lastRequest {
                         Text(lastRequest.method)

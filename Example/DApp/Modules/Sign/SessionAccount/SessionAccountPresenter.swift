@@ -73,6 +73,19 @@ final class SessionAccountPresenter: ObservableObject {
     func copyUri() {
         UIPasteboard.general.string = sessionAccount.account
     }
+
+
+    func copyResponse() {
+        switch response.result {
+        case  .response(let response):
+            UIPasteboard.general.string = try! response.get(String.self).description
+
+
+        case .error(let error):
+            UIPasteboard.general.string = error.message
+        }
+
+    }
 }
 
 extension String {
