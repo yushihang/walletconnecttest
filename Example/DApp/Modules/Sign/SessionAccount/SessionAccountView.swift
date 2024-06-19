@@ -165,7 +165,10 @@ struct SessionAccountView: View {
                 ForEach(Array(methods.enumerated()), id: \.offset) { index, method in
                     if method != "eth_sendRawTransaction" {
                         Button {
-                            presenter.onMethod(method: method)
+                            Task {
+                                await presenter.onMethod(method: method)
+                            }
+                            
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 16)
@@ -284,7 +287,10 @@ struct SessionAccountView: View {
                    lastRequest.method == "eth_signTransaction" {
                     Button(action: {
                         presenter.showResponse = false
-                        presenter.onMethod(method: "eth_sendRawTransaction")
+                        Task {
+                            await presenter.onMethod(method: "eth_sendRawTransaction")
+                        }
+
                     }, label: {
                         Text("eth_sendRawTransaction")
                     })

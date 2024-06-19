@@ -2,6 +2,7 @@ import UIKit
 import Combine
 
 import WalletConnectSign
+import Web3
 
 final class SessionAccountPresenter: ObservableObject {
     enum Errors: Error {
@@ -25,6 +26,7 @@ final class SessionAccountPresenter: ObservableObject {
     var signedTransactionHex: String = ""
     
     private var subscriptions = Set<AnyCancellable>()
+    
 
     init(
         interactor: SessionAccountInteractor,
@@ -41,9 +43,9 @@ final class SessionAccountPresenter: ObservableObject {
     
     func onAppear() {}
     
-    func onMethod(method: String) {
+    func onMethod(method: String) async {
         do {
-            let requestParams = try getRequest(for: method)
+            let requestParams = try await getRequest(for: method)
             
             let ttl: TimeInterval = 300
             let request = try Request(topic: session.topic, method: method, params: requestParams, chainId: Blockchain(sessionAccount.chain)!, ttl: ttl)
@@ -124,17 +126,17 @@ extension SessionAccountPresenter {
             .store(in: &subscriptions)
     }
     
-    private func getRequest(for method: String) throws -> AnyCodable {
+    private func getRequest(for method: String) async throws -> AnyCodable {
         let account = session.namespaces.first!.value.accounts.first!.address
         if method == "eth_sendTransaction" {
-            let tx = Stub.tx
+            let tx = Stub.tx(account: account)
             return AnyCodable(tx)
         } else if method == "personal_sign" {
             return AnyCodable(["0x4d7920656d61696c206973206a6f686e40646f652e636f6d202d2031363533333933373535313531", account])
         } else if method == "eth_signTypedData" {
             return AnyCodable([account, Stub.eth_signTypedData])
         } else if method == "eth_signTransaction" {
-            return AnyCodable(Stub.signTransaction)
+            return await AnyCodable(Stub.signTransaction(account:account))
         } else if method == "eth_sendRawTransaction" {
             return AnyCodable([signedTransactionHex])
         }
@@ -170,8 +172,19 @@ extension SessionAccountPresenter.Errors: LocalizedError {
     }
 }
 
+extension Int {
+    func toHex() -> String {
+        return String(format: "0x%02X", self)
+    }
+}
+
 // MARK: - Transaction Stub
 private enum Stub {
+    private static let web3 = Web3(rpcURL: "https://rpc-amoy.polygon.technology/")
+    
+    private static let destAddr = "0x21669cd5cd7874af2a8e569da3d7a0f6f85e6b4b"
+    private static let transferValue = 12345678
+
     struct Transaction: Codable {
         let from, to, data, gas: String
         let gasPrice, value: String
@@ -181,6 +194,83 @@ private enum Stub {
         let from, to, data, gas: String
         let gasPrice, value, nonce: String
     }
+    
+    static func tx(account: String) -> [Transaction] {
+        [Transaction(from: account,
+                     to: destAddr,
+                     data: "",//"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
+                     gas: "", //"0x10000",
+                     gasPrice: "", //"0x2710",//"0x9184e72a000",
+                     value: transferValue.toHex())]
+    }
+    
+    static func getTransactionCountAsync(address: EthereumAddress, block: EthereumQuantityTag = .latest) async -> EthereumQuantity {
+        return await withCheckedContinuation { continuation in
+            web3.eth.getTransactionCount(address: address, block: block) { result in
+                switch result.status {
+                case .success(let count):
+                    continuation.resume(returning: count)
+                case .failure(let error):
+                    print("Failed to get transaction count: \(error)")
+                    continuation.resume(returning: EthereumQuantity(0))
+                }
+            }
+        }
+    }
+    
+    static func gasPriceAsync() async -> EthereumQuantity {
+        return await withCheckedContinuation { continuation in
+            web3.eth.gasPrice { result in
+                switch result.status {
+                case .success(let price):
+                    continuation.resume(returning: price)
+                case .failure(let error):
+                    print("Failed to get gas price: \(error)")
+                    continuation.resume(returning: EthereumQuantity(0))
+                }
+            }
+        }
+    }
+    
+    static func estimateGasAsync(call: EthereumCall) async -> EthereumQuantity {
+        return await withCheckedContinuation { continuation in
+            web3.eth.estimateGas(call: call) { result in
+                switch result.status {
+                case .success(let gas):
+                    continuation.resume(returning: gas)
+                case .failure(let error):
+                    print("Failed to estimate gas: \(error)")
+                    continuation.resume(returning: EthereumQuantity(0))
+                }
+            }
+        }
+    }
+    
+    static func signTransaction(account: String) async -> [SignTransactionS] {
+        
+        guard let ethAddress = try? EthereumAddress(hex: account, eip55: false) else {
+            return []
+        }
+        guard let destAddress = try? EthereumAddress(hex: destAddr, eip55: false) else {
+            return []
+        }
+        guard let value = try? EthereumQuantity(ethereumValue: EthereumValue.string(transferValue.toHex())) else {
+            return []
+        }
+        let nonce = await getTransactionCountAsync(address: ethAddress)
+        let gasPrice = await gasPriceAsync()
+        let call = EthereumCall(from: ethAddress, to: destAddress, gas: nil, gasPrice: gasPrice, value: value, data: nil)
+        let gas = await estimateGasAsync(call: call)
+        return [SignTransactionS(
+            from: account,
+            to: destAddr,
+            data: "",//"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
+            gas: gas.hex(), //"0x10000",
+            gasPrice: gasPrice.hex(), //"0x2710",//"0x9184e72a000",
+            value: transferValue.toHex(),
+            nonce: nonce.hex()
+        )]
+        /*
     static let tx = [Transaction(from: "0x52f203bc8bc838e666548b7e0c8ffd54ce3da615",
                                 to: "0x21669cd5cd7874af2a8e569da3d7a0f6f85e6b4b",
                                 data: "",//"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
@@ -205,6 +295,7 @@ private enum Stub {
                           gasPrice: "", //"0x2710",//"0x9184e72a000",
                           value: "0x9184e72a",
                           nonce: "0x118")]
+    */
     }
     
     static let eth_signTypedData = """
