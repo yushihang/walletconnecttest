@@ -75,7 +75,7 @@ final class SessionAccountPresenter: ObservableObject {
     }
 
 
-    func copyResponse() {
+    func copyResponse(response: Response) {
         switch response.result {
         case  .response(let response):
             UIPasteboard.general.string = try! response.get(String.self).description

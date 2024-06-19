@@ -234,7 +234,7 @@ struct SessionAccountView: View {
                     Spacer()
 
                     Button {
-                        presenter.copyResponse()
+                        presenter.copyResponse(response: response)
                     } label: {
                         Image("copy")
                             .resizable()
