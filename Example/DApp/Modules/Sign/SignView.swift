@@ -3,6 +3,8 @@ import SwiftUI
 struct SignView: View {
     @EnvironmentObject var presenter: SignPresenter
 
+    let simpleView = true
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -12,23 +14,34 @@ struct SignView: View {
                 ScrollView {
                     if presenter.accountsDetails.isEmpty {
                         VStack {
-                            ForEach(presenter.chains, id: \.name) { chain in
-                                networkItem(title: chain.name, icon: chain.name.lowercased(), id: chain.id)
+                            if !simpleView {
+                                ForEach(presenter.chains, id: \.name) { chain in
+                                    networkItem(title: chain.name, icon: chain.name.lowercased(), id: chain.id)
+                                }
+                                Spacer()
+
                             }
 
-                            Spacer()
+
+
 
                             VStack(spacing: 10) {
-                                Button {
-                                    presenter.connectWalletWithSessionAuthenticateLinkMode()
-                                } label: {
-                                    Text("1-Click Auth with Link Mode")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 10)
-                                        .background(Color(red: 95/255, green: 159/255, blue: 248/255))
-                                        .cornerRadius(16)
+                                if !simpleView {
+                                    Button {
+                                        presenter.connectWalletWithSessionAuthenticateLinkMode()
+                                    } label: {
+                                        Text("1-Click Auth with Link Mode")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 10)
+                                            .background(Color(red: 95/255, green: 159/255, blue: 248/255))
+                                            .cornerRadius(16)
+                                    }
+
+                                }
+                                else {
+                                    Spacer().frame(height: 400)
                                 }
 
                                 Button {
@@ -43,52 +56,54 @@ struct SignView: View {
                                         .cornerRadius(16)
                                 }
 
-                                Button {
-                                    presenter.connectWalletWithSessionPropose()
-                                } label: {
-                                    Text("Connect Session Propose")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 10)
-                                        .background(Color(red: 95/255, green: 159/255, blue: 248/255))
-                                        .cornerRadius(16)
-                                }
+                                if !simpleView {
+                                    Button {
+                                        presenter.connectWalletWithSessionPropose()
+                                    } label: {
+                                        Text("Connect Session Propose")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 10)
+                                            .background(Color(red: 95/255, green: 159/255, blue: 248/255))
+                                            .cornerRadius(16)
+                                    }
 
-                                Button {
-                                    presenter.connectWalletWithSessionAuthenticate()
-                                } label: {
-                                    Text("Connect Session Authenticate")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 10)
-                                        .background(Color(red: 95/255, green: 159/255, blue: 248/255))
-                                        .cornerRadius(16)
-                                }
+                                    Button {
+                                        presenter.connectWalletWithSessionAuthenticate()
+                                    } label: {
+                                        Text("Connect Session Authenticate")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 10)
+                                            .background(Color(red: 95/255, green: 159/255, blue: 248/255))
+                                            .cornerRadius(16)
+                                    }
 
-                                Button {
-                                    presenter.connectWalletWithSessionAuthenticateSIWEOnly()
-                                } label: {
-                                    Text("Connect Session Authenticate - SIWE only")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 10)
-                                        .background(Color(red: 95/255, green: 159/255, blue: 248/255))
-                                        .cornerRadius(16)
-                                }
+                                    Button {
+                                        presenter.connectWalletWithSessionAuthenticateSIWEOnly()
+                                    } label: {
+                                        Text("Connect Session Authenticate - SIWE only")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 10)
+                                            .background(Color(red: 95/255, green: 159/255, blue: 248/255))
+                                            .cornerRadius(16)
+                                    }
 
-                                Button {
-                                    presenter.connectWalletWithWCM()
-                                } label: {
-                                    Text("Connect with WalletConnectModal")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 10)
-                                        .background(Color(red: 95/255, green: 159/255, blue: 248/255))
-                                        .cornerRadius(16)
+                                    Button {
+                                        presenter.connectWalletWithWCM()
+                                    } label: {
+                                        Text("Connect with WalletConnectModal")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 10)
+                                            .background(Color(red: 95/255, green: 159/255, blue: 248/255))
+                                            .cornerRadius(16)
+                                    }
                                 }
                             }
                             .padding(.top, 10)
@@ -154,7 +169,7 @@ struct SignView: View {
                     }
                 }
             }
-            .navigationTitle(presenter.accountsDetails.isEmpty ? "Available Chains" : "Session Accounts")
+            .navigationTitle(presenter.accountsDetails.isEmpty ? (simpleView ? "Connect Wallet" : "Available Chains") : "Session Accounts")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
