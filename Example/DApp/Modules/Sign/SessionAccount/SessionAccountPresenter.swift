@@ -142,7 +142,7 @@ extension SessionAccountPresenter {
         case "eth_sendRawTransaction":
             return AnyCodable([signedTransactionHex])
         case "eth_sign":
-            return AnyCodable(["0x4d7920656d61696c206973206a6f686e40646f652e636f6d202d2031363533333933373535313531", account])
+            return AnyCodable([account, "0xdeadbeaf"])
         default:
             throw Errors.notImplemented
         }
