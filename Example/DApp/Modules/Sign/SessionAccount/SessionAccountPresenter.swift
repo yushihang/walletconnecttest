@@ -128,19 +128,26 @@ extension SessionAccountPresenter {
     
     private func getRequest(for method: String) async throws -> AnyCodable {
         let account = session.namespaces.first!.value.accounts.first!.address
-        if method == "eth_sendTransaction" {
+
+        switch method {
+        case "eth_sendTransaction":
             let tx = Stub.tx(account: account)
             return AnyCodable(tx)
-        } else if method == "personal_sign" {
+        case "personal_sign":
             return AnyCodable(["0x4d7920656d61696c206973206a6f686e40646f652e636f6d202d2031363533333933373535313531", account])
-        } else if method == "eth_signTypedData" {
+        case "eth_signTypedData":
             return AnyCodable([account, Stub.eth_signTypedData])
-        } else if method == "eth_signTransaction" {
+        case "eth_signTransaction"
             return await AnyCodable(Stub.signTransaction(account:account))
-        } else if method == "eth_sendRawTransaction" {
+        case "eth_sendRawTransaction":
             return AnyCodable([signedTransactionHex])
+        case "eth_sign":
+            return AnyCodable(["0x4d7920656d61696c206973206a6f686e40646f652e636f6d202d2031363533333933373535313531", account])
+        default:
+            throw Errors.notImplemented
         }
-        throw Errors.notImplemented
+
+
     }
     
     private func presentResponse(response: Response) {
