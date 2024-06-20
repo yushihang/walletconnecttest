@@ -137,7 +137,7 @@ extension SessionAccountPresenter {
             return AnyCodable(["0x4d7920656d61696c206973206a6f686e40646f652e636f6d202d2031363533333933373535313531", account])
         case "eth_signTypedData":
             return AnyCodable([account, Stub.eth_signTypedData])
-        case "eth_signTransaction"
+        case "eth_signTransaction":
             return await AnyCodable(Stub.signTransaction(account:account))
         case "eth_sendRawTransaction":
             return AnyCodable([signedTransactionHex])

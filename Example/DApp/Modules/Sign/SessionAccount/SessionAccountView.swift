@@ -284,7 +284,8 @@ struct SessionAccountView: View {
                 
                 Spacer()
                 if let lastRequest = presenter.lastRequest,
-                   lastRequest.method == "eth_signTransaction" {
+                   lastRequest.method == "eth_signTransaction",
+                   case RPCResult.response(_) = response.result {
                     Button(action: {
                         presenter.showResponse = false
                         Task {
