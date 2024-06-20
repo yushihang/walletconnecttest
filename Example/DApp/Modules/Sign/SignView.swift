@@ -3,7 +3,7 @@ import SwiftUI
 struct SignView: View {
     @EnvironmentObject var presenter: SignPresenter
 
-    let simpleView = true
+    let simpleView = false
 
     var body: some View {
         NavigationStack {
