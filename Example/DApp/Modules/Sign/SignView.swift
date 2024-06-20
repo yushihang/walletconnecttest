@@ -3,7 +3,7 @@ import SwiftUI
 struct SignView: View {
     @EnvironmentObject var presenter: SignPresenter
 
-    let simpleView = false
+    let simpleView = true
 
     var body: some View {
         NavigationStack {
@@ -111,7 +111,7 @@ struct SignView: View {
                         .padding(12)
                     } else {
                         VStack {
-                            ForEach(presenter.accountsDetails, id: \.account) { account in
+                            ForEach(presenter.accountsDetails, id: \.id) { account in
                                 Button {
                                     presenter.presentSessionAccount(sessionAccount: account)
                                 } label: {
