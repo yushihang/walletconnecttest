@@ -146,14 +146,48 @@ public class Serializer: Serializing {
         do {
             decryptedData = try codec.decode(sealbox: sealbox, symmetricKey: symmetricKey)
             let str = String(decoding: decryptedData, as: UTF8.self)
-            
+
+
             let decodedType = try JSONDecoder().decode(T.self, from: decryptedData)
-            logger.debug(str + "\nOK\n")
+            if let str_ = str.prettyPrintedJSON {
+                logger.debug("===== response json =====\n\(str_)\n===== response json print end =====")
+            }
+
             return (decodedType, decryptedData)
         } catch {
             let str = String(decoding: decryptedData, as: UTF8.self)
             logger.debug(str)
             throw error
+        }
+    }
+}
+
+
+extension String {
+    var prettyPrintedJSON : String? {
+
+        guard let jsonData = self.data(using: .utf8) else {
+            print("Error: Unable to convert string to data")
+            return nil
+        }
+
+        do {
+
+            let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [])
+
+
+            let prettyJsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+
+
+            if let prettyJsonString = String(data: prettyJsonData, encoding: .utf8) {
+                return prettyJsonString
+            } else {
+                print("Error: Unable to convert pretty JSON data to string")
+                return nil
+            }
+        } catch {
+            print("Error: \(error)")
+            return nil
         }
     }
 }

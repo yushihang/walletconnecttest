@@ -204,6 +204,15 @@ public class NetworkingInteractor: NetworkInteracting {
         try rpcHistory.set(request, forTopic: topic, emmitedBy: .local, transportType: .relay)
 
         do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            do {
+                let jsonData = try encoder.encode(request)
+                if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    logger.debug("===== request json =====\n\(jsonString)\n===== request json print end =====")
+                }
+            }
+
             let message = try serializer.serialize(topic: topic, encodable: request, envelopeType: envelopeType)
 
             try await relayClient.publish(topic: topic,
