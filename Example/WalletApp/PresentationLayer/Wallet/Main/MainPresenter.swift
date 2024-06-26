@@ -64,7 +64,7 @@ extension MainPresenter {
             .receive(on: DispatchQueue.main)
             .sink { [unowned self] result in
                 let requestedChains: Set<Blockchain> = Set(result.request.payload.chains.compactMap { Blockchain($0) })
-                let supportedChains: Set<Blockchain> = [Blockchain("eip155:1")!, Blockchain("eip155:137")!]
+                let supportedChains: Set<Blockchain> = [Blockchain("eip155:1")!, Blockchain("eip155:137")!, Blockchain("eip155:80002")!]
                 // Check if there's an intersection between the requestedChains and supportedChains
                 let commonChains = requestedChains.intersection(supportedChains)
                 guard !commonChains.isEmpty else {
